@@ -21,30 +21,28 @@ async fn main() {
     let m : f32 = 1e10;
     let v : f32 = -1.0;// -5e6;
     let dt = 1e4;
-    
+
     let mut block1 = Block::new(100.0, 100.0, 1.0, 0.0);
     let mut block2 = Block::new(300.0, 201.0, m, v/dt);
 
-    loop {
+    loop { 
+        (0..(dt as u32)).into_iter().for_each(|_| {
+            if block1.collide(&block2) { 
+                let (v1,v2) = block1.elastic_collision(&block2);
+                block1.set_velocity(v1);
+                block2.set_velocity(v2);
+                collisions += 1;
+            }
 
-        for _ in 0..(dt as u32) {
-        if block1.collide(&block2) { 
-            let (v1,v2) = block1.elastic_collision(&block2);
-            block1.set_velocity(v1);
-            block2.set_velocity(v2);
-            collisions += 1;
-        }
+            if block1.hit_wall() {
+                block1.reverse();
+                collisions += 1;
+            }
+            
 
-        if block1.hit_wall() {
-            block1.reverse();
-            collisions += 1;
-        }
-        
-
-        block1.update();
-        block2.update();
-
-        }
+            block1.update();
+            block2.update();
+        });
 
         clear_background(BLACK);
 
