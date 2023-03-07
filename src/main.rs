@@ -25,8 +25,6 @@ async fn main() {
     let mut block1 = Block::new(100.0, 100.0, 1.0, 0.0);
     let mut block2 = Block::new(300.0, 201.0, m, v/dt);
 
-    println!("block1 v = {}", block1.v);
-
     loop {
 
         for _ in 0..(dt as u32) {
