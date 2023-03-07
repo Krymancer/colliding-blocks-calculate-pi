@@ -1,0 +1,45 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'colliding-blogs-calculate-pi'",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=colliding-blogs-calculate-pi",
+          "--package=colliding-blogs-calculate-pi"
+        ],
+        "filter": {
+          "name": "colliding-blogs-calculate-pi",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug unit tests in executable 'colliding-blogs-calculate-pi'",
+      "cargo": {
+        "args": [
+          "test",
+          "--no-run",
+          "--bin=colliding-blogs-calculate-pi",
+          "--package=colliding-blogs-calculate-pi"
+        ],
+        "filter": {
+          "name": "colliding-blogs-calculate-pi",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

@@ -1,45 +1,53 @@
 use macroquad::prelude::*;
 
 pub struct Block {
-   x: f64,
-   y: f64,
-   w: f64,
-   h: f64,
-   m: f64,
-   v: f64,
+   pub m: f32,
+   pub v: f32,
+   pub rect: Rect,
 }
 
 impl Block {
-   pub fn new(x: f64, y: f64, w: f64, h: f64, m: f64, v: f64) -> Self {
-      Self { x, y, w, h, m, v }
+   pub fn new(x: f32, w: f32, m: f32, v: f32) -> Self {
+      Self { 
+        rect: Rect::new(x, screen_height() - w, w, w),
+        m,
+        v,
+      }
    }
 
    pub fn reverse(&mut self) {
-      self.v *= -1.0;
+      self.v = -self.v;
    }
 
    pub fn hit_wall(&self) -> bool {
-      self.x < 0.0
+      self.rect.x < 0.0
    }
 
-   pub fn collide(&self, other: &Block) -> bool {
-      !(self.x + self.w < other.x || self.x > other.x + other.w)
+    pub fn collide(&self, other: &Block) -> bool {
+        self.rect.overlaps(&other.rect)
+    }
+
+    pub fn elastic_collision(&self, other: &Block) -> (f32,f32) {
+        let m1 = self.m;
+        let m2 = other.m;
+        let u1 = self.v;
+        let u2 = other.v;
+
+        let v1 = ((m1 - m2) / (m1 + m2)) * u1 + ((2.0 * m2) / (m1 + m2)) * u2;
+        let v2 = ((2.0 * m1) / (m1 + m2)) * u1 + ((m2 - m1) / (m1 + m2)) * u2;
+
+        (v1,v2)
    }
 
-   pub fn bounce(&self, other: &Block) -> f64 {
-      ((self.m - other.m) / (self.m + other.m) * self.v)
-         + ((2.0 * other.m) / (self.m + other.m) * other.v)
-   }
-
-   pub fn set_velocity(&mut self, v: f64) {
+   pub fn set_velocity(&mut self, v: f32) {
       self.v = v;
    }
 
    pub fn update(&mut self) {
-      self.x += self.v;
+      self.rect.x += self.v;
    }
 
    pub fn show(&self, color: Color) {
-      draw_rectangle(self.x as f32, self.y as f32, self.w as f32, self.h as f32, color);
+      draw_rectangle(self.rect.x, self.rect.y, self.rect.w, self.rect.h, color);
    }
 }
