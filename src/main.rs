@@ -20,7 +20,7 @@ async fn main() {
     let mut collisions = 0;
     let m : f32 = 1e10;
     let v : f32 = -1.0;// -5e6;
-    let dt = 1e4;
+    let dt: f32 = 1e4;
 
     let mut block1 = Block::new(100.0, 100.0, 1.0, 0.0);
     let mut block2 = Block::new(300.0, 201.0, m, v/dt);
